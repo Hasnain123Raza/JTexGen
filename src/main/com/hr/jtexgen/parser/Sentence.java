@@ -29,6 +29,12 @@ public class Sentence {
 
         words = new ArrayList<>();
 
+        sentence = sentence.trim();
+
+        if (sentence.replaceAll("[^%.!%?\n]*", "").length() > 0) {
+            throw new IllegalArgumentException("Sentence was improperly formatted");
+        }
+
         Scanner scanner = new Scanner(sentence);
         while (scanner.hasNext()) {
             try {

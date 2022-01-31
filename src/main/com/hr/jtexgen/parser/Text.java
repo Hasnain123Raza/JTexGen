@@ -39,6 +39,7 @@ public class Text {
             String line = null;
             while ((line = bufferedReader.readLine()) != null) {
                 Scanner scanner = new Scanner(line);
+                scanner.useDelimiter("[.!?]");
                 while (scanner.hasNext()) {
                     try {
                         sentences.add(new Sentence(scanner.next()));
