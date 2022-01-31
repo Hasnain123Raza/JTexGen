@@ -24,7 +24,7 @@ public class Text {
      * Throws IllegalArgumentException if the given file is or becomes (after transformations) null or empty.
      * 
      * @param filename name of the file from which the Text object is constructed.
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException if the given file is or becomes (after transformations) null or empty.
      */
     public Text(String filename) throws IOException, IllegalArgumentException {
         if (filename == null) {

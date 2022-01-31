@@ -19,7 +19,7 @@ jobs:
       - name: Generate JavaDocs
         run: ant docs
       - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@3.5.9
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          branch: gh-pages
-          folder: docs
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: docs

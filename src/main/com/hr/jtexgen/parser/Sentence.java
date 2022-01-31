@@ -20,7 +20,7 @@ public class Sentence {
      * Throws IllegalArgumentException if the given string is or becomes (after transformations) null or empty.
      * 
      * @param sentence string from which the Sentence object is constructed.
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException if the given string is or becomes (after transformations) null or empty.
      */
     public Sentence(String sentence) throws IllegalArgumentException {
         if (sentence == null) {

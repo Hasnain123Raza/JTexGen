@@ -19,7 +19,7 @@ public final class Word implements Cloneable, Comparable<Word> {
      * Throws IllegalArgumentException if the given string is or becomes (after transformations) null or empty.
      * 
      * @param word string from which the Word object is constructed.
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException if the given string is or becomes (after transformations) null or empty.
      */
     public Word(String word) throws IllegalArgumentException {
         if (word == null) {
