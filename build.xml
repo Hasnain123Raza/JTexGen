@@ -1,0 +1,98 @@
+<project name="jtexgen" default="main">
+
+    <!-- GLOBAL VARIABLES -->
+    <property name="root-package" value="com.hr.jtexgen"/>
+    <property name="main-class" value="${root-package}.Main"/>
+
+    <!-- DIRECTORY VARIABLES -->
+    <property name="src.dir" value="src"/>
+    <property name="src.main.dir" value="${src.dir}/main"/>
+    <property name="src.test.dir" value="${src.dir}/test"/>
+
+    <property name="build.dir" value="build"/>
+    <property name="build.classes.dir" value="${build.dir}/classes"/>
+    <property name="build.classes.main.dir" value="${build.classes.dir}/main"/>
+    <property name="build.classes.test.dir" value="${build.classes.dir}/test"/>
+    <property name="build.jar.dir" value="${build.dir}/jar"/>
+    <property name="build.jar.main.dir" value="${build.jar.dir}/main"/>
+    <property name="build.jar.test.dir" value="${build.jar.dir}/test"/>
+
+    <property name="lib.dir" value="lib"/>
+
+    <property name="docs.dir" value="docs"/>
+
+    <!-- CLASSPATH -->
+    <path id="classpath">
+        <fileset dir="${lib.dir}" includes="**/*.jar"/>
+    </path>
+
+    <!-- CLEAN TASK -->
+    <target name="clean" description="Clean the build directory">
+        <delete dir="${build.dir}"/>
+        <delete dir="${docs.dir}"/>
+    </target>
+
+    <!-- DOCS TASK -->
+    <target name="docs" description="Generate the java documentation">
+        <mkdir dir="${docs.dir}"/>
+        <javadoc destdir="${docs.dir}" sourcepath="${src.main.dir}" classpathref="classpath"/>
+    </target>
+
+    <!-- COMPILE PROGRAM TASK -->
+    <target name="compile" description="Compile the source code">
+        <mkdir dir="${build.classes.main.dir}"/>
+        <javac srcdir="${src.main.dir}" destdir="${build.classes.main.dir}" classpathref="classpath"/>
+    </target>
+
+    <!-- JAR PROGRAM TASK -->
+    <target name="jar" depends="compile" description="Create the JAR file">
+        <mkdir dir="${build.jar.main.dir}"/>
+        <jar destfile="${build.jar.main.dir}/${ant.project.name}.jar" basedir="${build.classes.main.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="${main-class}"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <!-- RUN PROGRAM TASK -->
+    <target name="run" depends="jar" description="Run the JAR file">
+        <java fork="true" classname="${main-class}">
+            <classpath>
+                <path refid="classpath"/>
+                <path location="${build.jar.main.dir}/${ant.project.name}.jar"/>
+            </classpath>
+        </java>
+    </target>
+
+    <!-- COMPILE TEST TASK -->
+    <target name="compile-test" description="Compile the test code" depends="jar">
+        <mkdir dir="${build.classes.test.dir}"/>
+        <javac srcdir="${src.test.dir}" destdir="${build.classes.test.dir}">
+            <classpath>
+                <path refid="classpath"/>
+                <path location="${build.jar.main.dir}/${ant.project.name}.jar"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <!-- JAR TEST TASK -->
+    <target name="jar-test" description="Jar the test code" depends="compile-test">
+        <mkdir dir="${build.jar.test.dir}"/>
+        <jar destfile="${build.jar.test.dir}/${ant.project.name}-test.jar" basedir="${build.classes.test.dir}"/>
+    </target>
+
+    <!-- RUN TEST TASK -->
+    <target name="run-test" depends="jar-test" description="Run the test code">
+        <java fork="true" classname="${main-class}Test">
+            <classpath>
+                <path refid="classpath"/>
+                <path location="${build.jar.main.dir}/${ant.project.name}.jar"/>
+                <path location="${build.jar.test.dir}/${ant.project.name}-test.jar"/>
+            </classpath>
+        </java>
+    </target>
+
+    <!-- MAIN TASK -->
+    <target name="main" depends="clean, run" description="Clean, compile, and run the program" />
+
+</project>
