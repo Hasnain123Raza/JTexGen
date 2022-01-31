@@ -25,4 +25,24 @@ public class WordTest {
         assertEquals("hello", word.toString());
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testEmptyWord() {
+        Word word = new Word("");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testNullWord() {
+        Word word = new Word(null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testInvalidWord() {
+        Word word = new Word("123..?.456");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testSpacedWord() {
+        Word word = new Word("hello world");
+    }
+
 }

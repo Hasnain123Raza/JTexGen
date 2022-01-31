@@ -26,11 +26,19 @@ public final class Word implements Cloneable, Comparable<Word> {
             throw new IllegalArgumentException("Word cannot be null");
         }
 
-        this.word = word.trim().toLowerCase().replaceAll("[^a-z]", "");
-        if (this.word.length() == 0 || this.word.replaceAll("\\S*", "").length() > 0) {
+        word = word.trim().toLowerCase();
+
+        if (word.replaceAll("\\S*", "").length() > 0) {
             throw new IllegalArgumentException("Word was improperly formatted");
         }
 
+        word = word.replaceAll("[^a-z]", "");
+
+        if (word.length() == 0) {
+            throw new IllegalArgumentException("Word was improperly formatted");
+        }
+
+        this.word = word;
         hashCode = this.word.hashCode();
     }
 
