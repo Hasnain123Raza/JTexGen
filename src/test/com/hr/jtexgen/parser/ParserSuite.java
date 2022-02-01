@@ -6,6 +6,8 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
     WordTest.class,
+    SentenceTest.class,
+    TextTest.class
 })
 public class ParserSuite {
     

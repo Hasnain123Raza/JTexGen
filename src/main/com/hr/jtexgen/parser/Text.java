@@ -19,40 +19,59 @@ public class Text {
     private ArrayList<Sentence> sentences;
 
     /**
-     * Constructs a new Text object.
-     * Extracts sentences from the given file.
-     * Throws IllegalArgumentException if the given file is or becomes (after transformations) null or empty.
+     * Constructs a new Text object from a filename.
      * 
      * @param filename name of the file from which the Text object is constructed.
-     * @throws IllegalArgumentException if the given file is or becomes (after transformations) null or empty.
+     * @return a new Text object.
+     * @throws IOException if the file cannot be read.
+     * @throws IllegalArgumentException if the given filename is null or empty, or if text is not properly formatted (see constructor).
      */
-    public Text(String filename) throws IOException, IllegalArgumentException {
+    public static Text fromFile(String filename) throws IOException, IllegalArgumentException {
         if (filename == null) {
             throw new IllegalArgumentException("File name cannot be null");
         }
 
-        sentences = new ArrayList<>();
-
+        StringBuilder stringBuilder = new StringBuilder();
         try (FileReader fileReader = new FileReader(filename);
             BufferedReader bufferedReader = new BufferedReader(fileReader)) {
-            
+                
             String line = null;
             while ((line = bufferedReader.readLine()) != null) {
-                Scanner scanner = new Scanner(line);
-                scanner.useDelimiter("[.!?]");
-                while (scanner.hasNext()) {
-                    try {
-                        sentences.add(new Sentence(scanner.next()));
-                    } catch (IllegalArgumentException e) {
-                        // Ignore invalid sentences
-                    }
-                }
-                scanner.close();
-            }   
+                stringBuilder.append(line);
+            }
         }
 
+        return new Text(stringBuilder.toString());
+    }
+
+    /**
+     * Constructs a new Text object.
+     * Extracts sentences from the given text string.
+     * Throws IllegalArgumentException if the given file is or becomes (after transformations) null or empty.
+     * 
+     * @param text string from which the Text object is constructed.
+     * @throws IllegalArgumentException if the given file is or becomes (after transformations) null or empty.
+     */
+    public Text(String text) throws IllegalArgumentException {
+        if (text == null) {
+            throw new IllegalArgumentException("Text cannot be null");
+        }
+
+        sentences = new ArrayList<>();
+
+        Scanner scanner = new Scanner(text);
+        scanner.useDelimiter("[.!?\n]");
+        while (scanner.hasNext()) {
+            try {
+                sentences.add(new Sentence(scanner.next()));
+            } catch (IllegalArgumentException e) {
+                // Ignore invalid sentences
+            }
+        }
+        scanner.close();
+
         if (sentences.size() == 0) {
-            throw new IllegalArgumentException("File was improperly formatted");
+            throw new IllegalArgumentException("Text was improperly formatted");
         }
     }
 
@@ -63,6 +82,20 @@ public class Text {
      */
     public Sentence[] getSentences() {
         return sentences.toArray(new Sentence[sentences.size()]);
+    }
+
+    /**
+     * Converts this text to a string.
+     * 
+     * @return a string representation of this text.
+     */
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Sentence sentence : sentences) {
+            stringBuilder.append(sentence.toString() + ". ");
+        }
+        return stringBuilder.toString();
     }
 
 }

@@ -77,4 +77,55 @@ public class Sentence {
         return words.get(words.size() - 1);
     }
 
+    /**
+     * Compares this sentence with another for equality.
+     * 
+     * @param other the other sentence to compare with.
+     * @return true if the two sentences are equal, false otherwise.
+     */
+    @Override
+    public boolean equals(Object other) {
+        if (other == null) {
+            return false;
+        }
+
+        if (other == this) {
+            return true;
+        }
+
+        if (other instanceof Sentence) {
+            Sentence otherSentence = (Sentence) other;
+            if (words.size() != otherSentence.words.size()) {
+                return false;
+            }
+
+            for (int index = 0; index < words.size(); index++) {
+                if (!words.get(index).equals(otherSentence.words.get(index))) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Converts to string.
+     * 
+     * @return the string representation of this sentence.
+     */
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        
+        for (int counter = 0; counter < words.size(); counter++) {
+            builder.append(words.get(counter).toString());
+            if (counter < words.size() - 1) {
+                builder.append(" ");
+            }
+        }
+
+        return builder.toString();
+    }
+
 }
