@@ -1,8 +1,10 @@
 package com.hr.jtexgen;
 
-import java.io.IOException;
-
 import com.hr.jtexgen.parser.Text;
+
+import com.hr.jtexgen.generator.TextChain;
+
+import java.io.IOException;
 
 /**
  * Main class for the JTexGen project.
@@ -29,8 +31,9 @@ public class Main {
             System.exit(-1);
         }
 
-        System.out.println(text);
-        System.out.println("Hello, World!");
+        TextChain textChain = new TextChain(text);
+
+        System.out.println(textChain.generate(512, 1024));
     }
 
 }

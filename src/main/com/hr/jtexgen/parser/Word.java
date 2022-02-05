@@ -43,17 +43,6 @@ public final class Word implements Cloneable, Comparable<Word> {
     }
 
     /**
-     * Clones this Word object.
-     * 
-     * @throws CloneNotSupportedException
-     * @return a clone of this Word object.
-     */
-    @Override
-    public Word clone() throws CloneNotSupportedException {
-        return (Word) super.clone();
-    }
-
-    /**
      * Compares the word to another word.
      * 
      * @param other the word to compare to.

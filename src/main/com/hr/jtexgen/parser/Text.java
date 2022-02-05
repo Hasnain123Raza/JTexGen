@@ -37,7 +37,7 @@ public class Text {
                 
             String line = null;
             while ((line = bufferedReader.readLine()) != null) {
-                stringBuilder.append(line);
+                stringBuilder.append(line + "\n");
             }
         }
 
