@@ -33,10 +33,12 @@ class WordRecord implements Cloneable {
     }
 
     /**
-     * Increments the weight by 1.
+     * Increments the weight by amount.
+     * 
+     * @param amount the amount to increment the weight by.
      */
-    public void incrementWeight() {
-        weight++;
+    public void incrementWeight(double amount) {
+        weight += amount;
     }
 
     /**
@@ -68,14 +70,14 @@ class WordRecord implements Cloneable {
 
     /**
      * Constructs a new word record.
-     * The default weight is 1.
+     * The default weight is 0.
      * The default isEnd is false.
      * 
      * @param word the word.
      */
     public WordRecord(Word word) {
         this.word = word;
-        this.weight = 1.0;
+        this.weight = 0;
         this.isEnd = false;
     }
 

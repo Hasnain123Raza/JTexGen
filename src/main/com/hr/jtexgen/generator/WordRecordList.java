@@ -14,6 +14,10 @@ class WordRecordList implements Cloneable {
     private ArrayList<WordRecord> list;
     private boolean isNormalized;
 
+    private long wordCount;
+    private double totalWeight;
+    private double weightIncrement;
+
     /**
      * Returns an array of word records.
      * 
@@ -24,12 +28,34 @@ class WordRecordList implements Cloneable {
     }
 
     /**
+     * Gets the word count.
+     * 
+     * @return the word count.
+     */
+    public long getWordCount() {
+        return wordCount;
+    }
+
+    /**
+     * Gets the weight increment.
+     * 
+     * @return the weight increment.
+     */
+    public double getWeightIncrement() {
+        return weightIncrement;
+    }
+
+    /**
      * Creates a new word record list.
      * Default isNormalized is false.
      */
     public WordRecordList() {
         list = new ArrayList<WordRecord>();
         isNormalized = false;
+
+        wordCount = 0;
+        totalWeight = 0;
+        weightIncrement = 1;
     }
 
     /**
@@ -43,15 +69,19 @@ class WordRecordList implements Cloneable {
      */
     public void add(Word word) {
         isNormalized = false;
+        wordCount++;
+        totalWeight += weightIncrement;
 
         for (WordRecord wordRecord : list) {
             if (wordRecord.getWord().equals(word)) {
-                wordRecord.incrementWeight();
+                wordRecord.incrementWeight(weightIncrement);
                 return;
             }
         }
 
-        list.add(new WordRecord(word));
+        WordRecord newWordRecord = new WordRecord(word);
+        newWordRecord.incrementWeight(weightIncrement);
+        list.add(newWordRecord);
     }
 
     /**
@@ -75,20 +105,17 @@ class WordRecordList implements Cloneable {
      * The weights of the word records are normalized by dividing them by the sum of the weights.
      */
     public void normalize() {
-        if (isNormalized) {
+        if (isNormalized || wordCount == 0) {
             return;
         }
 
-        double sum = 0.0;
         for (WordRecord wordRecord : list) {
-            sum += wordRecord.getWeight();
-        }
-
-        for (WordRecord wordRecord : list) {
-            wordRecord.setWeight(wordRecord.getWeight() / sum);
+            wordRecord.setWeight(wordRecord.getWeight() / totalWeight);
         }
 
         isNormalized = true;
+        totalWeight = 1;
+        weightIncrement = (double) 1 / wordCount;
     }
 
     /**

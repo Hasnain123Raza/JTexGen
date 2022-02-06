@@ -102,4 +102,63 @@ public class WordRecordListTest {
         assertEquals(1.0, total, 0.001);
     }
 
+    @Test
+    public void testMultipleNormalize() {
+        Word words[] = {
+            new Word("hello"),
+            new Word("hello"),
+            new Word("world"),
+            new Word("world"),
+            new Word("world"),
+            new Word("how"),
+            new Word("how"),
+            new Word("how"),
+            new Word("how"),
+            new Word("are"),
+            new Word("are"),
+            new Word("are"),
+            new Word("are"),
+            new Word("are"),
+        };
+
+        WordRecordList wordRecordList = new WordRecordList();
+        for (int counter = 0; counter < 5; counter++) {
+            wordRecordList.add(words[counter]);
+        }
+
+        assertEquals(1.0, wordRecordList.getWeightIncrement(), 0.001);
+        assertEquals(2.0, wordRecordList.getList()[0].getWeight(), 0.001);
+        assertEquals(3.0, wordRecordList.getList()[1].getWeight(), 0.001);
+
+        wordRecordList.normalize();
+        assertEquals(1.0 / 5, wordRecordList.getWeightIncrement(), 0.001);
+        assertEquals(2.0 / 5, wordRecordList.getList()[0].getWeight(), 0.001);
+        assertEquals(3.0 / 5, wordRecordList.getList()[1].getWeight(), 0.001);
+
+        for (int counter = 5; counter < 9; counter++) {
+            wordRecordList.add(words[counter]);
+        }
+
+        assertEquals(4.0 / 5, wordRecordList.getList()[2].getWeight(), 0.001);
+
+        wordRecordList.normalize();
+        assertEquals(1.0 / 9, wordRecordList.getWeightIncrement(), 0.001);
+        assertEquals(2.0 / 9, wordRecordList.getList()[0].getWeight(), 0.001);
+        assertEquals(3.0 / 9, wordRecordList.getList()[1].getWeight(), 0.001);
+        assertEquals(4.0 / 9, wordRecordList.getList()[2].getWeight(), 0.001);
+
+        for (int counter = 9; counter < words.length; counter++) {
+            wordRecordList.add(words[counter]);
+        }
+
+        assertEquals(5.0 / 9, wordRecordList.getList()[3].getWeight(), 0.001);
+
+        wordRecordList.normalize();
+        assertEquals(1.0 / 14, wordRecordList.getWeightIncrement(), 0.001);
+        assertEquals(2.0 / 14, wordRecordList.getList()[0].getWeight(), 0.001);
+        assertEquals(3.0 / 14, wordRecordList.getList()[1].getWeight(), 0.001);
+        assertEquals(4.0 / 14, wordRecordList.getList()[2].getWeight(), 0.001);
+        assertEquals(5.0 / 14, wordRecordList.getList()[3].getWeight(), 0.001);
+    }
+
 }
