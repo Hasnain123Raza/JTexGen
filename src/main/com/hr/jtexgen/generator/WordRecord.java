@@ -8,7 +8,7 @@ import com.hr.jtexgen.parser.Word;
  * 
  * @author Hasnain Raza
  */
-class WordRecord {
+class WordRecord implements Cloneable {
     
     private Word word;
     private double weight;
@@ -77,6 +77,18 @@ class WordRecord {
         this.word = word;
         this.weight = 1.0;
         this.isEnd = false;
+    }
+
+    /**
+     * Clones the word record.
+     * 
+     * @return the cloned word record.
+     */
+    public WordRecord clone() {
+        WordRecord wordRecord = new WordRecord(word);
+        wordRecord.setWeight(weight);
+        wordRecord.setEnd(isEnd);
+        return wordRecord;
     }
 
 }

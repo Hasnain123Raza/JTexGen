@@ -76,6 +76,31 @@ public class Text {
     }
 
     /**
+     * Constructs a new empty Text object.
+     */
+    public Text() {
+        sentences = new ArrayList<>();
+    }
+
+    /**
+     * Adds a sentence to this text.
+     * 
+     * @param sentence sentence to be added.
+     */
+    public void addSentence(Sentence sentence) {
+        sentences.add(sentence);
+    }
+
+    /**
+     * Returns whether or not this text is empty.
+     * 
+     * @return whether or not this text is empty.
+     */
+    public boolean isEmpty() {
+        return sentences.size() == 0;
+    }
+
+    /**
      * Returns the array of sentences in this text.
      * 
      * @return the array of sentences in this text.

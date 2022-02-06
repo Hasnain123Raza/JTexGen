@@ -51,6 +51,22 @@ public class Sentence {
     }
 
     /**
+     * Constructs a new empty Sentence object.
+     */
+    public Sentence() {
+        words = new ArrayList<>();
+    }
+
+    /**
+     * Adds a word to this sentence.
+     * 
+     * @param word word to be added.
+     */
+    public void addWord(Word word) {
+        words.add(word);
+    }
+
+    /**
      * Returns the array of words in this sentence.
      * 
      * @return the array of words in this sentence.
@@ -75,6 +91,15 @@ public class Sentence {
      */
     public Word getLastWord() {
         return words.get(words.size() - 1);
+    }
+
+    /**
+     * Returns whether or not this sentence is empty.
+     * 
+     * @return whether or not this sentence is empty.
+     */
+    public boolean isEmpty() {
+        return words.size() == 0;
     }
 
     /**

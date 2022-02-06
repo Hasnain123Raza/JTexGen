@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * 
  * @author Hasnain Raza
  */
-class WordRecordList {
+class WordRecordList implements Cloneable {
     
     private ArrayList<WordRecord> list;
     private boolean isNormalized;
@@ -110,6 +110,20 @@ class WordRecordList {
         }
 
         return null;
+    }
+
+    /**
+     * Clones the word record list.
+     * 
+     * @return the cloned word record list.
+     */
+    public WordRecordList clone() {
+        WordRecordList wordRecordList = new WordRecordList();
+        for (WordRecord wordRecord : list) {
+            wordRecordList.list.add(wordRecord.clone());
+        }
+
+        return wordRecordList;
     }
 
 }

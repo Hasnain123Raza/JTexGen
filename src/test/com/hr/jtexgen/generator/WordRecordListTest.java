@@ -30,12 +30,12 @@ public class WordRecordListTest {
         }
 
         WordRecord wordRecords[] = wordRecordList.getList();
-        assertEquals(wordRecords.length, 5);
-        assertEquals(wordRecords[0].getWeight(), 1.0, 0.0001);
-        assertEquals(wordRecords[1].getWeight(), 2.0, 0.0001);
-        assertEquals(wordRecords[2].getWeight(), 3.0, 0.0001);
-        assertEquals(wordRecords[3].getWeight(), 1.0, 0.0001);
-        assertEquals(wordRecords[4].getWeight(), 2.0, 0.0001);
+        assertEquals(5, wordRecords.length);
+        assertEquals(1.0, wordRecords[0].getWeight(), 0.0001);
+        assertEquals(2.0, wordRecords[1].getWeight(), 0.0001);
+        assertEquals(3.0, wordRecords[2].getWeight(), 0.0001);
+        assertEquals(1.0, wordRecords[3].getWeight(), 0.0001);
+        assertEquals(2.0, wordRecords[4].getWeight(), 0.0001);
     }
 
     @Test
@@ -61,11 +61,11 @@ public class WordRecordListTest {
         wordRecordList.setEnd(words[3], true);
 
         WordRecord wordRecords[] = wordRecordList.getList();
-        assertEquals(wordRecords[0].isEnd(), false);
-        assertEquals(wordRecords[1].isEnd(), true);
-        assertEquals(wordRecords[2].isEnd(), false);
-        assertEquals(wordRecords[3].isEnd(), false);
-        assertEquals(wordRecords[4].isEnd(), false);
+        assertEquals(false, wordRecords[0].isEnd());
+        assertEquals(true, wordRecords[1].isEnd());
+        assertEquals(false, wordRecords[2].isEnd());
+        assertEquals(false, wordRecords[3].isEnd());
+        assertEquals(false, wordRecords[4].isEnd());
     }
 
     @Test

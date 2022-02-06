@@ -18,11 +18,49 @@ public class TextChain {
     private HashMap<Word, WordRecordList> wordMap;
 
     /**
+     * Returns a clone of the start words.
+     * 
+     * @return a clone of the start words.
+     */
+    public WordRecordList getStartWords() {
+        return startWords.clone();
+    }
+
+    /**
+     * Returns a clone of the end words.
+     * 
+     * @return a clone of the end words.
+     */
+    public WordRecordList getEndWords() {
+        return endWords.clone();
+    }
+
+    /**
+     * Returns a clone of the word map.
+     * 
+     * @return a clone of the word map.
+     */
+    public HashMap<Word, WordRecordList> getWordMap() {
+        HashMap<Word, WordRecordList> clonedWordMap = new HashMap<>();
+
+        for (Word word : wordMap.keySet()) {
+            clonedWordMap.put(word, wordMap.get(word).clone());
+        }
+
+        return clonedWordMap;
+    }
+
+    /**
      * Creates a new text chain.
      * 
      * @param text the text to be used.
+     * @throws IllegalArgumentException if the given text is null or empty.
      */
-    public TextChain(Text text) {
+    public TextChain(Text text) throws IllegalArgumentException {
+        if (text == null || text.isEmpty()) {
+            throw new IllegalArgumentException("Text cannot be empty");
+        }
+
         startWords = new WordRecordList();
         endWords = new WordRecordList();
         wordMap = new HashMap<Word, WordRecordList>();
@@ -36,8 +74,17 @@ public class TextChain {
      * @param minimumLength the minimum length of the generated text.
      * @param maximumLength the maximum length of the generated text.
      * @return the generated text.
+     * @throws IllegalArgumentException if the given minimum length is less than 1 or greater than the maximum length.
      */
-    public String generate(int minimumLength, int maximumLength) {
+    public String generate(int minimumLength, int maximumLength) throws IllegalArgumentException {
+        if (minimumLength < 1) {
+            throw new IllegalArgumentException("Minimum length must be greater than 0");
+        }
+
+        if (maximumLength < minimumLength) {
+            throw new IllegalArgumentException("Maximum length must be greater than or equal to minimum length");
+        }
+
         StringBuilder stringBuilder = new StringBuilder();
 
         Word currentWord = startWords.select().getWord();
