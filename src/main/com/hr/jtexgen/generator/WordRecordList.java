@@ -14,7 +14,7 @@ class WordRecordList implements Cloneable {
     private ArrayList<WordRecord> list;
     private boolean isNormalized;
 
-    private long wordCount;
+    private double totalWeightedWords;
     private double totalWeight;
     private double weightIncrement;
 
@@ -24,16 +24,22 @@ class WordRecordList implements Cloneable {
      * @return an array of word records.
      */
     public WordRecord[] getList() {
-        return list.toArray(new WordRecord[list.size()]);
+        WordRecord[] wordRecords = new WordRecord[list.size()];
+
+        for (int index = 0; index < list.size(); index++) {
+            wordRecords[index] = list.get(index).clone();
+        }
+
+        return wordRecords;
     }
 
     /**
-     * Gets the word count.
+     * Gets the total weighted words.
      * 
-     * @return the word count.
+     * @return the total weighted words.
      */
-    public long getWordCount() {
-        return wordCount;
+    public double getTotalWeightedWords() {
+        return totalWeightedWords;
     }
 
     /**
@@ -53,7 +59,7 @@ class WordRecordList implements Cloneable {
         list = new ArrayList<WordRecord>();
         isNormalized = false;
 
-        wordCount = 0;
+        totalWeightedWords = 0;
         totalWeight = 0;
         weightIncrement = 1;
     }
@@ -61,26 +67,45 @@ class WordRecordList implements Cloneable {
     /**
      * Adds a word to the list.
      * To add a word, the list searches whether a word record with the same word already exists.
-     * If it does, the weight of the word record is incremented by 1.
-     * If it doesn't, a new word record is created and added to the list.
+     * If it does, the weight of the word record is incremented by one.
+     * If it doesn't, a new word record is created and added to the list with weight equal to one.
      * Adding a word also sets the isNormalized flag to false.
      * 
      * @param word the word to be added.
      */
     public void add(Word word) {
+        add(word, 1.0);
+    }
+
+    /**
+     * Adds a word to the list with an alpha value.
+     * To add a word, the list searches whether a word record with the same word already exists.
+     * If it does, the weight of the word record is incremented by the alpha value.
+     * If it doesn't, a new word record is created and added to the list with weight equal to the alpha value.
+     * Adding a word also sets the isNormalized flag to false.
+     * 
+     * @param word the word to be added.
+     * @param alpha the alpha value.
+     * @throws IllegalArgumentException if alpha is less than or equal to zero or alpha is greater than one.
+     */
+    public void add(Word word, double alpha) throws IllegalArgumentException {
+        if (alpha <= 0 || alpha > 1) {
+            throw new IllegalArgumentException("Alpha must be greater than zero and less than or equal to one.");
+        }
+
         isNormalized = false;
-        wordCount++;
-        totalWeight += weightIncrement;
+        totalWeightedWords += alpha;
+        totalWeight += weightIncrement * alpha;
 
         for (WordRecord wordRecord : list) {
             if (wordRecord.getWord().equals(word)) {
-                wordRecord.incrementWeight(weightIncrement);
+                wordRecord.incrementWeight(weightIncrement * alpha);
                 return;
             }
         }
 
         WordRecord newWordRecord = new WordRecord(word);
-        newWordRecord.incrementWeight(weightIncrement);
+        newWordRecord.incrementWeight(weightIncrement * alpha);
         list.add(newWordRecord);
     }
 
@@ -105,7 +130,7 @@ class WordRecordList implements Cloneable {
      * The weights of the word records are normalized by dividing them by the sum of the weights.
      */
     public void normalize() {
-        if (isNormalized || wordCount == 0) {
+        if (isNormalized || totalWeightedWords == 0) {
             return;
         }
 
@@ -115,7 +140,7 @@ class WordRecordList implements Cloneable {
 
         isNormalized = true;
         totalWeight = 1;
-        weightIncrement = (double) 1 / wordCount;
+        weightIncrement = (double) 1 / totalWeightedWords;
     }
 
     /**

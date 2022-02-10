@@ -36,6 +36,36 @@ public class WordRecordListTest {
         assertEquals(3.0, wordRecords[2].getWeight(), 0.0001);
         assertEquals(1.0, wordRecords[3].getWeight(), 0.0001);
         assertEquals(2.0, wordRecords[4].getWeight(), 0.0001);
+        assertEquals(9.0, wordRecordList.getTotalWeightedWords(), 0.0001);
+    }
+
+    @Test
+    public void testAddAlpha() {
+        Word words[] = {
+            new Word("hello"),
+            new Word("world"),
+            new Word("world"),
+            new Word("how"),
+            new Word("how"),
+            new Word("how"),
+            new Word("are"),
+            new Word("you"),
+            new Word("you"),
+        };
+
+        WordRecordList wordRecordList = new WordRecordList();
+        for (Word word : words) {
+            wordRecordList.add(word, 0.5);
+        }
+
+        WordRecord wordRecords[] = wordRecordList.getList();
+        assertEquals(5, wordRecords.length);
+        assertEquals(0.5, wordRecords[0].getWeight(), 0.0001);
+        assertEquals(1.0, wordRecords[1].getWeight(), 0.0001);
+        assertEquals(1.5, wordRecords[2].getWeight(), 0.0001);
+        assertEquals(0.5, wordRecords[3].getWeight(), 0.0001);
+        assertEquals(1.0, wordRecords[4].getWeight(), 0.0001);
+        assertEquals(4.5, wordRecordList.getTotalWeightedWords(), 0.0001);
     }
 
     @Test
