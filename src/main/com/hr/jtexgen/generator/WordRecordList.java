@@ -104,6 +104,14 @@ class WordRecordList implements Cloneable {
                 list.add(newWordRecord);
             }
         }
+
+        for (WordRecord wordRecord : list) {
+            WordRecord foundWordRecord = wordRecordList.getWordRecord(wordRecord.getWord());
+            
+            if (foundWordRecord == null) {
+                wordRecord.setWeight(wordRecord.getWeight() * (1 - alpha));
+            }
+        }
     }
 
     /**
