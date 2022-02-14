@@ -95,14 +95,11 @@ public class TextChain {
             WordRecordList currentWordRecordList = wordMap.get(currentWord);
 
             if (currentWordRecordList == null) {
-                if (stringBuilder.charAt(stringBuilder.length() - 1) != '.') {
-                    stringBuilder.append(".");
-                }
-                currentWord = startWords.select().getWord();
+                stringBuilder.append(".");
                 if (currentLength >= maximumLength) {
                     break;
                 }
-                continue;
+                currentWord = startWords.select().getWord();
             } else {
                 WordRecord wordRecord = currentWordRecordList.select();
                 currentWord = wordRecord.getWord();
@@ -110,21 +107,20 @@ public class TextChain {
                 if (wordRecord.isEnd()) {
                     if (currentWord.equals(endWords.select().getWord())) {
                         stringBuilder.append(currentWord + ".");
-                        currentWord = startWords.select().getWord();
                         currentLength++;
                         if (currentLength >= maximumLength) {
                             break;
                         }
-                        continue;
+                        currentWord = startWords.select().getWord();
                     }
                 }
+            }
 
-                stringBuilder.append(" " + currentWord);
-                currentLength++;
+            stringBuilder.append(" " + currentWord);
+            currentLength++;
 
-                if (currentLength >= maximumLength) {
-                    break;
-                }
+            if (currentLength >= maximumLength) {
+                break;
             }
         }
 

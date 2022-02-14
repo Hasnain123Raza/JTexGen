@@ -19,10 +19,28 @@ public class Main {
      * @param args command line arguments.
      */
     public static void main(String[] args) {
-        Text text = null;
+        // Text text = null;
+
+        // try {
+        //     text = Text.fromFile("input.txt");
+        // } catch (IllegalArgumentException e) {
+        //     e.printStackTrace();
+        //     System.exit(-1);
+        // } catch (IOException e) {
+        //     e.printStackTrace();
+        //     System.exit(-1);
+        // }
+
+        // TextChain textChain = new TextChain(text);
+
+        // System.out.println(textChain.generate(512, 1024));
+
+        Text text1 = null;
+        Text text2 = null;
 
         try {
-            text = Text.fromFile("input.txt");
+            text1 = Text.fromFile("input1.txt");
+            text2 = Text.fromFile("input2.txt");
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
             System.exit(-1);
@@ -31,9 +49,12 @@ public class Main {
             System.exit(-1);
         }
 
-        TextChain textChain = new TextChain(text);
+        TextChain textChain1 = new TextChain(text1);
+        TextChain textChain2 = new TextChain(text2);
 
-        System.out.println(textChain.generate(512, 1024));
+        textChain1.merge(textChain2, 0.5);
+
+        System.out.println(textChain1.generate(512, 1024));
     }
 
 }
