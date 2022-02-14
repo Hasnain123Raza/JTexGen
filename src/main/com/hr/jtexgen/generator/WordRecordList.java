@@ -83,7 +83,7 @@ class WordRecordList implements Cloneable {
      * 
      * @param wordRecordList the word record list to be merged.
      * @param alpha the alpha value.
-     * @throws IllegalArgumentException if alpha is less than or equal to 0 or greater than or equal to 1.
+     * @throws IllegalArgumentException if word record list is null or alpha is less than or equal to 0 or greater than or equal to 1.
      */
     public void merge(WordRecordList wordRecordList, double alpha) throws IllegalArgumentException {
         if (wordRecordList == null) {
